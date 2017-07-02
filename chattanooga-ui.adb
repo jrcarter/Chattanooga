@@ -4,6 +4,7 @@
 --
 -- User Interface
 --
+-- V1.3B  2017 Jul 15     Used DB.Check_For_Friends
 -- V1.2B  2017 Feb 15     Corrected error in On_Connect_Submit
 -- V1.1B  2015 Jul 01     New version of Gnoga.Types.Colors
 -- V1.0B  2015 Jan 30     1st beta release, now with limited messaging area

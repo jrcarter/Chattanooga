@@ -1,5 +1,5 @@
 -- Chattanooga: a simple chat program
--- Copyright (C) 2015 by PragmAda Software Engineering.  All rights reserved.
+-- Copyright (C) 2017 by PragmAda Software Engineering.  All rights reserved.
 -- **************************************************************************
 --
 -- Database: the data stored by the program; currently all in memory
