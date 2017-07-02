@@ -1,10 +1,9 @@
 -- Chattanooga: a simple chat program
--- Copyright (C) 2017 by PragmAda Software Engineering.  All rights reserved.
+-- Copyright (C) 2015 by PragmAda Software Engineering.  All rights reserved.
 -- **************************************************************************
 --
 -- Database: the data stored by the program; currently all in memory
 --
--- V1.1B  2017 Jul 15     Separate checking for existing friends from adding a new user
 -- V1.0B  2015 Jan 05     1st beta release
 --
 with Ada.Containers.Hashed_Sets;
@@ -21,13 +20,9 @@ package Chattanooga.DB is
    end record;
 
    procedure Add (User : in Unbounded_String; App_Data : in App_Ptr);
-   -- Adds User to DB with App_Data for its UI updates.
+   -- Adds User to DB with App_Data for its UI updates. User's Contact set will be populated with any existing users who have
+   -- User in their Contact sets
    -- If Exists (User), raises Constraint_Error
-
-   procedure Check_For_Friends (User : in Unbounded_String);
-   -- Populates User's Contact set with any existing users who have User in their Contact sets
-   -- User's chat screen must have been created
-   -- If not Exists (User), raises Constraint_Error
 
    function Exists (User : Unbounded_String) return Boolean;
    -- Returns True if User is in the DB; False otherwise
