@@ -200,9 +200,10 @@ package body Chattanooga.UI is
          return;
       end if;
 
-      DB.Add (User => +Email, App_Data => App);
       App.Email := +Email;
+      DB.Add (User => App.Email, App_Data => App);
       Create_Chat_Screen (App => App);
+      Db.Check_For_Friends (User => App.Email);
    exception -- Add
    when Constraint_Error =>
       App.Error.Text (Value => Email & " is already connected. Try again.");

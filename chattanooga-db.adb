@@ -4,6 +4,7 @@
 --
 -- Database: the data stored by the program; currently all in memory
 --
+-- V1.1B  2017 Jul 15     Separate checking for existing friends from adding a new user
 -- V1.0B  2015 Jan 05     1st beta release
 --
 with Ada.Containers.Hashed_Maps;
@@ -16,6 +17,7 @@ package body Chattanooga.DB is
 
    protected Control is
       procedure Add (User : in Unbounded_String; App_Data : in App_Ptr);
+      procedure Check_For_Friends (User : in Unbounded_String);
       function Exists (User : Unbounded_String) return Boolean;
       procedure Remove (User : in Unbounded_String);
       function Send (From : Unbounded_String; Message : String) return Natural;
@@ -30,6 +32,12 @@ package body Chattanooga.DB is
    begin -- Add
       Control.Add (User => User, App_Data => App_Data);
    end Add;
+
+   procedure Check_For_Friends (User : in Unbounded_String) is
+      -- Empty declarative part
+   begin -- Check_For_Friends
+      Control.Check_For_Friends (User => User);
+   end Check_For_Friends;
 
    function Exists (User : Unbounded_String) return Boolean is
       -- Empty declarative part
@@ -63,6 +71,17 @@ package body Chattanooga.DB is
 
    protected body Control is
       procedure Add (User : in Unbounded_String; App_Data : in App_Ptr) is
+         Data : User_Data;
+      begin -- Add
+         if Map.Contains (User) then
+            raise Constraint_Error;
+         end if;
+
+         Data.App_Data := App_Data;
+         Map.Insert (Key => User, New_Item => Data);
+      end Add;
+
+      procedure Check_For_Friends (User : in Unbounded_String) is
          procedure Check_One (Position : in User_Maps.Cursor);
          -- if the Contact set for the user at Position contains User, adds the user at Position to Data.Contact
          -- Changes the display of User for the user at Position to indicate that User is connected
@@ -75,19 +94,18 @@ package body Chattanooga.DB is
          begin -- Check_One
             if Value.Contact.Contains (User) then
                Data.Contact.Include (New_Item => Key);
-               UI.New_Friend (Friend => Key, App_Data => App_Data, Connected => True);
+               UI.New_Friend (Friend => Key, App_Data => Data.App_Data, Connected => True);
                UI.Change_Status (Friend => User, App_Data => Value.App_Data, Connected => True);
             end if;
          end Check_One;
-      begin -- Add
-         if Map.Contains (User) then
+      begin -- Check_For_Friends
+         if not Map.Contains (User) then
             raise Constraint_Error;
          end if;
 
-         Data.App_Data := App_Data;
+         Data := Map.Element (User);
          Map.Iterate (Process => Check_One'Access);
-         Map.Insert (Key => User, New_Item => Data);
-      end Add;
+      end Check_For_Friends;
 
       function Exists (User : Unbounded_String) return Boolean is
          -- Empty declarative part
