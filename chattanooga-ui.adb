@@ -257,7 +257,9 @@ package body Chattanooga.UI is
       Friend : constant String :=
          Ada.Strings.Fixed.Trim (Ada.Characters.Handling.To_Lower (App.Friend_Entry.Value), Ada.Strings.Both);
    begin -- On_Add
-      if Friend = "" then
+      if Friend = "" or Friend = App.Email then
+         App.Friend_Entry.Value (Value => "");
+
          return;
       end if;
 
