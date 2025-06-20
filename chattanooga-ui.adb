@@ -50,7 +50,7 @@ package body Chattanooga.UI is
    procedure Show (From : in Unbounded_String; Message : in String; App_Data : in App_Ptr; Ding : in Boolean := True) is
       -- Empty declarative part
    begin -- Show
-      App_Data.Messaging.Value (Value => App_Data.Messaging.Value & LF & (+From) & ": " & Message);
+      App_Data.Messaging.Value (Value => App_Data.Messaging.Value & LF & "<b>" & (+From) & "</b>: " & Message);
       App_Data.Messaging.Scroll_Top (Value => Integer'Last);
 
       if Ding then
@@ -339,12 +339,7 @@ when E : others =>
    Gnoga.Log (Message => "UI: " & Ada.Exceptions.Exception_Information (E) );
 end Chattanooga.UI;
 --
--- This is free software; you can redistribute it and/or modify it under
--- terms of the GNU General Public License as published by the Free Software
--- Foundation; version 2.
--- This software is distributed in the hope that it will be useful, but WITH
--- OUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
--- or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
--- for more details. Free Software Foundation, 59 Temple Place - Suite
--- 330, Boston, MA 02111-1307, USA.
-
+-- SPDX-License-Identifier: GPL-2.0-only
+-- See https://spdx.org/licenses/
+-- If you find this software useful, please let me know, either through
+-- github.com/jrcarter or directly to pragmada@pragmada.x10hosting.com
